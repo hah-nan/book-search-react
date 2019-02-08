@@ -14,7 +14,9 @@ export default class SearchBox extends Component {
       books: [],
       suggestedBooks: [],
       suggestedAuthors: [],
-      searchInputValue: ''
+      userInputValue: '',
+      searchValue: '',
+      inputFocused: false
     };
 
     this.handleChange = this.handleChange.bind(this)
@@ -27,24 +29,42 @@ export default class SearchBox extends Component {
   }
 
   handleChange(e){
-    let searchInputValue = e.target.value
+    let userInputValue = e.target.value
+    let searchValue = userInputValue.replace(/(\s+$)/g, '')
 
-    let suggestedBooks = this.state.books.filter(( book ) => {
-      return book.title.toLowerCase().indexOf(searchInputValue.toLowerCase()) > -1
-    })
+    let suggestedBooks = []
+    let suggestedAuthors = []
+    //more than two non-space characters
+
+    if(searchValue.replace(/[^a-zA-Z0-9 -]/g, '').length > 1){
+
+
+      suggestedBooks = this.state.books.filter(( book ) => {
+        return book.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
+      })
     
-    let suggestedAuthors = this.state.books.filter(( book ) => {
-      return book.author.toLowerCase().indexOf(searchInputValue.toLowerCase()) > -1
-    })
+      suggestedAuthors = this.state.books.filter(( book ) => {
+        return book.author.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
+      })
+    }
 
-    this.setState({searchInputValue, suggestedAuthors, suggestedBooks})
+    this.setState({userInputValue, searchValue, suggestedAuthors, suggestedBooks})
   }
 
   render() {
+
+    let renderShadow = this.state.inputFocused || this.state.searchValue.length
+
     return (
-      <div className={'search-box' + (this.state.searchInputValue.length ? ' search-box-active' : '')}>
+      <div className={'search-box' + (renderShadow ? ' search-box-shadow' : '')}>
         
-        <input value={this.state.searchInputValue} onChange={this.handleChange} placeholder='Search by title or author'/>
+        <input 
+           onFocus={() => this.setState({inputFocused: true})}
+           onBlur={() => this.setState({inputFocused: false})}
+           value={this.state.userInputValue}
+           onChange={this.handleChange}
+           placeholder='Search by title or author'
+          />
        
         <SuggestionList suggestions={this.state.suggestedBooks} title={'BOOKS'}>
           <BookSuggestion/>
