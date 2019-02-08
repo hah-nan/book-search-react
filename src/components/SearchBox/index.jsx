@@ -38,7 +38,6 @@ export default class SearchBox extends Component {
 
     if(searchValue.replace(/[^a-zA-Z0-9 -]/g, '').length > 1){
 
-
       suggestedBooks = this.state.books.filter(( book ) => {
         return book.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
       })
@@ -54,6 +53,7 @@ export default class SearchBox extends Component {
   render() {
 
     let renderShadow = this.state.inputFocused || this.state.searchValue.length
+    let showNoMatchesBox = this.state.userInputValue.length > 1 && !this.state.suggestedAuthors.length && !this.state.suggestedBooks.length
 
     return (
       <div className={'search-box' + (renderShadow ? ' search-box-shadow' : '')}>
@@ -73,6 +73,12 @@ export default class SearchBox extends Component {
         <SuggestionList suggestions={this.state.suggestedAuthors} title={'AUTHORS'}>
           <AuthorSuggestion/>
         </SuggestionList>
+
+        { showNoMatchesBox ? 
+          <div className ='search-box__no-matches-box'>
+          {'No matches'}
+          </div>
+        : null}
 
       </div>
     )

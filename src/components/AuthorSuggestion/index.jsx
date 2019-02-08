@@ -4,10 +4,10 @@ import './index.scss'
 const AuthorSuggestion = ({title, author}) => {
 
   return (
-  	<>
-			<div>{author}</div>
-			<div>{`Wrote ${title}`}</div>
-    </>
+  	<div className='suggestion-list__item'>
+			<div className='suggestion-list__item__title'>{author}</div>
+			<div className='suggestion-list__item__subtitle'>{`Wrote ${title}`}</div>
+    </div>
   )
 }
 
