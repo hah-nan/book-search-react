@@ -4,7 +4,7 @@
 	input{
 		background-color:#F2F2F2;
 		border:0px;
-		border-radius:3px;
+		border-radius:4px;
 		padding:20px;
 		width:100%;
 		font-size:16px;
@@ -21,4 +21,14 @@
 			background-color:white;
 		}
 	}
+
+	&__suggestion-list{
+		color:black;
+		ul{
+			list-style-type:none;
+			padding:0px;
+			margin:0px;
+		}
+	}
+
 }
