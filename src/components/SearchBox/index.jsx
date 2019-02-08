@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import './index.scss'
 import Books from '../../actions/books.js'
 import SuggestionList from '../SuggestionList'
-import BookSuggestion from '../BookSuggestion'
-import AuthorSuggestion from '../BookSuggestion'
 
 const api = new Books()
 
