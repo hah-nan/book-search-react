@@ -1,7 +1,20 @@
 .search-box{
 	margin-top:35px;
+		border-radius:4px;
+
+	&-active{
+		-webkit-box-shadow: 1px 1px 10px 0px rgba(0,0,0,.5);
+		-moz-box-shadow: 1px 1px 10px 0px rgba(0,0,0,.5);
+		box-shadow: 1px 1px 10px 0px rgba(0,0,0,.5);
+		background-color:white;
+	}
 
 	input{
+
+	  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         
+
 		background-color:#F2F2F2;
 		border:0px;
 		border-radius:4px;
@@ -15,19 +28,6 @@
 
 		&:focus{
 			outline:none;
-			-webkit-box-shadow: 1px 1px 10px 0px rgba(0,0,0,.6);
-			-moz-box-shadow: 1px 1px 10px 0px rgba(0,0,0,.6);
-			box-shadow: 1px 1px 10px 0px rgba(0,0,0,.6);
-			background-color:white;
-		}
-	}
-
-	&__suggestion-list{
-		color:black;
-		ul{
-			list-style-type:none;
-			padding:0px;
-			margin:0px;
 		}
 	}
 

@@ -1,18 +1,22 @@
 import React, { Component } from 'react'
 import './index.scss'
 
-const SuggestionList = () => {
+const SuggestionList = ({title, suggestions, children}) => {
 
-  render() {
+  if(suggestions.length){
     return (
       <div className='suggestion-list'>
-        <div>{this.props}
-        <ul>{this.state.suggestionsCurrent.map((suggestions) => {
-          return <li>{book.title}</li>
+        <div className='suggestion-list__title'>{title}</div>
+        <ul>{suggestions.map((s, i) => {
+          return <li key={i}>{React.cloneElement(children, {...s})}</li>
         })}</ul>
       </div>
     )
+  }else{
+    return null
   }
+
+
 }
 
 export default SuggestionList
