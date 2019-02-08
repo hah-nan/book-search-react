@@ -20,12 +20,22 @@ export default class SearchBox extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this)
+    this.formatBookForSuggestionList = this.formatItemForSuggestionList.bind(this, 'book')
+    this.formatAuthorForSuggestionList = this.formatItemForSuggestionList.bind(this, 'author')
   }
 
   componentWillMount(){
     api.askListBooks().then((books) => {
       this.setState({books})
     })
+  }
+
+  formatItemForSuggestionList(type, book){
+    if(type === 'book'){
+      return {title: book.title, subtitle: `${author} -- Published in ${year}`
+    }else if (type === 'author'){
+      return {title: book.author, subtitle: `Wrote ${title}`
+    }
   }
 
   handleChange(e){
@@ -40,11 +50,11 @@ export default class SearchBox extends Component {
 
       suggestedBooks = this.state.books.filter(( book ) => {
         return book.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
-      })
+      }).map(formatBookForSuggestionList)
     
       suggestedAuthors = this.state.books.filter(( book ) => {
         return book.author.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
-      })
+      }).map(formatAuthorForSuggestionList)
     }
 
     this.setState({userInputValue, searchValue, suggestedAuthors, suggestedBooks})
@@ -53,7 +63,7 @@ export default class SearchBox extends Component {
   render() {
 
     let renderShadow = this.state.inputFocused || this.state.searchValue.length
-    let showNoMatchesBox = this.state.userInputValue.length > 1 && !this.state.suggestedAuthors.length && !this.state.suggestedBooks.length
+    let showNoMatchesBox = this.state.userInputValue.length > 2 && !this.setState.suggestedAuthors.length && !this.state.suggestedBooks.length
 
     return (
       <div className={'search-box' + (renderShadow ? ' search-box-shadow' : '')}>
