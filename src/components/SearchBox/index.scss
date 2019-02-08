@@ -2,13 +2,13 @@
 	$self: &;
 	
 	margin-top:35px;
-	border-radius:4px;
+	border-radius:5px;
 	background-color:#F2F2F2;
 
 	&-shadow{
-		-webkit-box-shadow: 1px 1px 10px 0px rgba(0,0,0,.5);
-		-moz-box-shadow: 1px 1px 10px 0px rgba(0,0,0,.5);
-		box-shadow: 1px 1px 10px 0px rgba(0,0,0,.5);
+		-webkit-box-shadow: 0px 1px 12px 0px rgba(0,0,0,.5);
+		-moz-box-shadow: 0px 1px 12px 0px rgba(0,0,0,.5);
+		box-shadow: 0px 1px 12px 0px rgba(0,0,0,.5);
 		background-color:white;
 	}
 

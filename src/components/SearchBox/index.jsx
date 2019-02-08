@@ -15,55 +15,66 @@ export default class SearchBox extends Component {
       suggestedBooks: [],
       suggestedAuthors: [],
       userInputValue: '',
-      searchValue: '',
       inputFocused: false
     };
-
     this.handleChange = this.handleChange.bind(this)
-    this.formatBookForSuggestionList = this.formatItemForSuggestionList.bind(this, 'book')
-    this.formatAuthorForSuggestionList = this.formatItemForSuggestionList.bind(this, 'author')
   }
 
   componentWillMount(){
     api.askListBooks().then((books) => {
       this.setState({books})
+      this.handleChange(this.state.userInputValue)
     })
   }
 
-  formatItemForSuggestionList(type, book){
-    if(type === 'book'){
-      return {title: book.title, subtitle: `${author} -- Published in ${year}`
-    }else if (type === 'author'){
-      return {title: book.author, subtitle: `Wrote ${title}`
-    }
+  formatTitle(s, match){
+    let parts = s.split(new RegExp(`(${match})`, 'gi'));
+    
+    return (<span> { 
+        parts.map((part, i) => {
+          if(part.toLowerCase() === match.toLowerCase()){
+            return <strong key={i}>{part}</strong>
+          }else{
+            return <span key={i}>{part}</span>
+          }
+        }
+    )} </span>)
   }
 
-  handleChange(e){
-    let userInputValue = e.target.value
-    let searchValue = userInputValue.replace(/(\s+$)/g, '')
-
+  handleChange(userInputValue){
     let suggestedBooks = []
     let suggestedAuthors = []
-    //more than two non-space characters
 
-    if(searchValue.replace(/[^a-zA-Z0-9 -]/g, '').length > 1){
+    if(userInputValue.replace(/[^a-zA-Z0-9 -]/g, '').length > 1){
 
-      suggestedBooks = this.state.books.filter(( book ) => {
-        return book.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
-      }).map(formatBookForSuggestionList)
+      suggestedBooks = this.state.books.reduce(( acc, book ) => {
+        if(book.title.toLowerCase().indexOf(userInputValue.toLowerCase()) > -1){
+          acc.push({
+            title: this.formatTitle(book.title, userInputValue),
+            subtitle: `${book.author} -- Published in ${book.year}`
+          })
+        }
+        return acc
+      }, [])
     
-      suggestedAuthors = this.state.books.filter(( book ) => {
-        return book.author.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
-      }).map(formatAuthorForSuggestionList)
+      suggestedAuthors = this.state.books.reduce(( acc, book ) => {
+        if(book.title.toLowerCase().indexOf(userInputValue.toLowerCase()) > -1){
+          acc.push({
+            title: this.formatTitle(book.author, userInputValue),
+            subtitle: `Wrote ${book.title}`
+          })
+        }
+        return acc
+      }, [])
     }
 
-    this.setState({userInputValue, searchValue, suggestedAuthors, suggestedBooks})
+    this.setState({userInputValue, userInputValue, suggestedAuthors, suggestedBooks})
   }
 
   render() {
 
-    let renderShadow = this.state.inputFocused || this.state.searchValue.length
-    let showNoMatchesBox = this.state.userInputValue.length > 2 && !this.setState.suggestedAuthors.length && !this.state.suggestedBooks.length
+    let renderShadow = this.state.inputFocused || this.state.userInputValue.length
+    let showNoMatchesBox = this.state.userInputValue.length > 2 && !this.state.suggestedAuthors.length && !this.state.suggestedBooks.length
 
     return (
       <div className={'search-box' + (renderShadow ? ' search-box-shadow' : '')}>
@@ -72,7 +83,7 @@ export default class SearchBox extends Component {
            onFocus={() => this.setState({inputFocused: true})}
            onBlur={() => this.setState({inputFocused: false})}
            value={this.state.userInputValue}
-           onChange={this.handleChange}
+           onChange={(e) => { this.handleChange(e.target.value)}}
            placeholder='Search by title or author'
           />
        

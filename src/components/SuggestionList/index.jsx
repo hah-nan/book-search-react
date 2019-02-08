@@ -10,7 +10,7 @@ const SuggestionList = ({title, suggestions}) => {
         <div className='suggestion-list__item__title'>{s.title}</div>
         <div className='suggestion-list__item__subtitle'>{s.subtitle}</div>
       </li>
-    })}
+    })
 
     return (
       <div className='suggestion-list'>
