@@ -1,22 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './root.scss'
-import SearchBox from './components/SearchBox'
+import SearchBoxContainer from './components/SearchBoxContainer'
 
-
-export default class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
-  render() {
-    return (
-      <div className='root'>
-        <div className='root__content'>
-          <p>{'Find your favorite books'}</p>
-          <SearchBox/>
-        </div>
+const Root = () => {
+  return (
+    <div className='root'>
+      <div className='root__content'>
+        <p>{'Find your favorite books'}</p>
+        <SearchBoxContainer/>
       </div>
-    )
-  }
+    </div>
+  )
 }
+
+export default Root
