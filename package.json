@@ -17,6 +17,7 @@
     "babel-loader": "^8.0.4",
     "css-loader": "^2.1.0",
     "node-sass": "^4.11.0",
+    "prop-types": "^15.6.2",
     "react-hot-loader": "^4.3.11",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
