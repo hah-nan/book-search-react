@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Books from '../../actions/books.js'
 import BookSearch from '../BookSearch'
-import { fetchMatchingTitlesAndAuthors, formatTitlesAndAuthors, debounce } from '../../actions/books'
+import { fetchMatchingTitles, fetchMatchingAuthors, debounce } from '../../actions/books'
 
 class BookSearchContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      formattedTitles: [],
-      formattedAuthors: [],
-      userInputValue: '',
+      matchingTitles: [],
+      matchingAuthors: [],
+      searchValue: '',
       cache:{}
     }
 
@@ -17,46 +17,44 @@ class BookSearchContainer extends Component {
     this.handleSearchDebounced = debounce(this.handleSearch.bind(this), 300)
   }
 
-  validateSearch(userInputValue){
-    return userInputValue.trim().length > 1
+  validateSearch(searchValue){
+    return searchValue.trim().length > 1
   }
 
-  handleSearch(userInputValue){
-    fetchMatchingTitlesAndAuthors(userInputValue).then(({authors, titles}) => {
-      let { formattedTitles, formattedAuthors } = formatTitlesAndAuthors(titles, authors, userInputValue)
-
-      //check if the userInputValue has changed since waiting for fetch to complete
-      if(this.state.userInputValue === userInputValue){
+  handleSearch(searchValue){
+    Promise.all([fetchMatchingTitles(searchValue), fetchMatchingAuthors(searchValue)]).then(([matchingTitles, matchingAuthors]) => {
+      //check if the searchValue has changed since waiting for fetch to complete
+      if(this.state.searchValue === searchValue){
         //cache
         let cache = Object.assign({}, this.state.cache)
-        cache[userInputValue] = {formattedTitles, formattedAuthors}
-        this.setState({formattedTitles, formattedAuthors, cache})
+        cache[searchValue] = {matchingTitles, matchingAuthors}
+        this.setState({matchingTitles, matchingAuthors, cache})
       }
-    })
+    }).catch(e => console.error(e))
   }
 
   handleChange(e){
-    const userInputValue = e.target.value
+    const searchValue = e.target.value
 
     //if cached
-    if(this.state.cache[userInputValue]){
-      this.setState(this.state.cache[userInputValue])
+    if(this.state.cache[searchValue]){
+      this.setState(this.state.cache[searchValue])
 
     //make sure we should search with this input
-    }else if(this.validateSearch(userInputValue)){
+    }else if(this.validateSearch(searchValue)){
       //its not cached, need to fetch from server
       this.handleSearchDebounced(e.target.value)
 
     }else{
       //if theres no input, clear old suggestions
-      this.setState({formattedTitles:[], formattedAuthors:[]})
+      this.setState({matchingTitles:[], matchingAuthors:[]})
     }
 
-    this.setState({userInputValue})
+    this.setState({searchValue})
   }
 
   render() {
-    return <BookSearch userInputValue={this.state.userInputValue} handleChange={this.handleChange} formattedTitles={this.state.formattedTitles} formattedAuthors={this.state.formattedAuthors}/>
+    return <BookSearch searchValue={this.state.searchValue} handleChange={this.handleChange} matchingTitles={this.state.matchingTitles} matchingAuthors={this.state.matchingAuthors}/>
   }
 }
 
