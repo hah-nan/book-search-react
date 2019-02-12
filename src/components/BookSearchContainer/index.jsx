@@ -12,7 +12,11 @@ class BookSearchContainer extends Component {
       userInputValue: '',
       cache:{}
     }
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = debounce(this.handleChange.bind(this), 300)
+  }
+
+  handleSearch(userInputValue){
+        //its not cached, need to fetch from server
   }
 
   handleChange(e){
@@ -22,19 +26,7 @@ class BookSearchContainer extends Component {
     if(this.state.cache[userInputValue]){
       this.setState(this.state.cache[userInputValue])
     }else{
-
-      //its not cached, need to fetch from server
-      fetchMatchingTitlesAndAuthors(userInputValue).then(({authors, titles}) => {
-        let { formattedTitles, formattedAuthors } = formatTitlesAndAuthors(titles, authors, userInputValue)
-        
-        //check if the userInputValue has changed since waiting for fetch to complete
-        if(this.state.userInputValue === userInputValue){
-          //cache
-          let cache = Object.assign({}, this.state.cache)
-          cache[userInputValue] = {formattedTitles, formattedAuthors}
-          this.setState({formattedTitles, formattedAuthors, cache})
-        }
-      })
+      this.handleSearchDebounced(e.target.value)
     }
 
     //if theres no input, clear old suggestions

@@ -2,21 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
 
-
-function boldMatchingLetters(s, match){
-  const parts = s.split(new RegExp(`(${match})`, 'gi'));
-  
-  return (<span> { 
-      parts.map((part, i) => {
-        if(part.toLowerCase() === match.toLowerCase()){
-          return <strong key={i}>{part}</strong>
-        }else{
-          return <span key={i}>{part}</span>
-        }
-      }
-  )} </span>)
-}
-
 const SuggestionList = ({category, suggestions}) => {
 
   if(suggestions.length){
@@ -38,6 +23,20 @@ const SuggestionList = ({category, suggestions}) => {
   }else{
     return null
   }
+}
+
+function boldMatchingLetters(s, match){
+  const parts = s.split(new RegExp(`(${match})`, 'gi'));
+  
+  return (<span> { 
+      parts.map((part, i) => {
+        if(part.toLowerCase() === match.toLowerCase()){
+          return <strong key={i}>{part}</strong>
+        }else{
+          return <span key={i}>{part}</span>
+        }
+      }
+  )} </span>)
 }
 
 SuggestionList.propTypes = {

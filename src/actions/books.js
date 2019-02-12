@@ -1,4 +1,4 @@
-import { fetchBooksByTitle, fetchBooksByAuthor} from '../mockServer'
+import { fetchBooksByTitle, fetchBooksByAuthor} from '../../mockServer'
 
 export function fetchMatchingTitlesAndAuthors(query){
    const titlesPromise = fetchBooksByTitle({title: query, limit: 5})
@@ -29,6 +29,10 @@ export function formatTitlesAndAuthors(titles, authors, match){
   return {formattedTitles, formattedAuthors}
 }
 
-export function debounce(){
-  
+export function debounce(fx, milliseconds){
+  let timeout = null
+  return function(...args){
+    clearTimeout(timeout)
+    timeout = setTimeout(() => fx.apply(this, args), milliseconds)
+  }
 }
