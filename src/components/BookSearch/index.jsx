@@ -7,11 +7,11 @@ const BookSearch = ({userInputValue, formattedAuthors, formattedTitles, handleCh
   
   const [inputFocused, setInputFocused] = useState(false);
   const renderShadow = inputFocused || userInputValue.length
-  const showNoMatchesBox = userInputValue.length > 2 && !formattedAuthors.length && !formattedTitles.length
+  const showNoMatchesBox = userInputValue.trim().length > 1 && !formattedAuthors.length && !formattedTitles.length
 
   return (
     <div className={'search-box' + (renderShadow ? ' search-box-shadow' : '')}>
-      
+
       <input 
          onFocus={() => setInputFocused(true)}
          onBlur={() => setInputFocused(false)}
@@ -20,8 +20,12 @@ const BookSearch = ({userInputValue, formattedAuthors, formattedTitles, handleCh
          placeholder='Search by title or author'
         />
      
-      <SuggestionList suggestions={formattedTitles} category={'BOOKS'}></SuggestionList>
-      <SuggestionList suggestions={formattedAuthors} category={'AUTHORS'}></SuggestionList>
+      { inputFocused ? 
+        <>
+        <SuggestionList suggestions={formattedTitles} category={'BOOKS'}></SuggestionList>
+        <SuggestionList suggestions={formattedAuthors} category={'AUTHORS'}></SuggestionList>
+        </>
+      : null }
 
       {showNoMatchesBox ? 
         <div className ='search-box__no-matches-box'>
