@@ -20,18 +20,16 @@ const BookSearch = ({userInputValue, formattedAuthors, formattedTitles, handleCh
          placeholder='Search by title or author'
         />
      
-      {inputFocused ? 
+      {inputFocused && 
         <>
         <SuggestionList suggestions={formattedTitles} category={'BOOKS'}></SuggestionList>
         <SuggestionList suggestions={formattedAuthors} category={'AUTHORS'}></SuggestionList>
-        </>
-      : null}
+        </>}
 
-      {showNoMatchesBox ? 
+      {showNoMatchesBox &&
         <div className ='search-box__no-matches-box'>
         {'No matches'}
-        </div>
-      : null}
+        </div>}
 
     </div>
   )

@@ -29,10 +29,14 @@ export function formatTitlesAndAuthors(titles, authors, match){
   return {formattedTitles, formattedAuthors}
 }
 
-export function debounce(fx, milliseconds){
+export function debounce(func, wait) {
   let timeout = null
-  return function(...args){
+  return function(...args) {
+    const later = function() {
+      timeout = null
+      func.apply(this, args)
+    }
     clearTimeout(timeout)
-    timeout = setTimeout(() => fx.apply(this, args), milliseconds)
+    timeout = setTimeout(later, wait)
   }
 }
