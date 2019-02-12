@@ -1,10 +1,10 @@
 import { fetchBooksByTitle, fetchBooksByAuthor} from '../../mockServer'
 
-export function fetchMatchingTitles(query){
-   return fetchBooksByTitle({title: query, limit: 5})
+export function fetchMatchingTitles(title){
+   return fetchBooksByTitle({title: title, limit: 5})
 }
-export function fetchMatchingAuthors(query){
-   return fetchBooksByAuthor({author: query, limit: 5})
+export function fetchMatchingAuthors(author){
+   return fetchBooksByAuthor({author: author, limit: 5})
 }
 
 export function debounce(func, wait) {

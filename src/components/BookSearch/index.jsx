@@ -1,6 +1,9 @@
 import React, { Component, useState } from 'react'
 import PropTypes from 'prop-types'
 import SuggestionList from '../SuggestionList'
+import AuthorSuggestion from '../AuthorSuggestion'
+import TitleSuggestion from '../TitleSuggestion'
+
 import './index.scss'
 
 const BookSearch = ({searchValue, matchingAuthors, matchingTitles, handleChange}) => {
@@ -8,20 +11,6 @@ const BookSearch = ({searchValue, matchingAuthors, matchingTitles, handleChange}
   const [inputFocused, setInputFocused] = useState(false);
   const renderShadow = inputFocused || searchValue.length
   const showNoMatchesBox = searchValue.trim().length > 1 && !matchingAuthors.length && !matchingTitles.length
-
-  const formattedTitles = matchingTitles.map(( book ) => {      
-    return {
-      title: book.title,
-      subtitle: `${book.author} -- Published in ${book.year}`
-    }
-  })
-
-  const formattedAuthors = matchingAuthors.map(( book ) => {
-    return {
-      title: book.author,
-      subtitle: `Wrote ${book.title}`
-    }
-  })
 
   return (
     <div className={'search-box' + (renderShadow ? ' search-box-shadow' : '')}>
@@ -36,8 +25,12 @@ const BookSearch = ({searchValue, matchingAuthors, matchingTitles, handleChange}
      
       {inputFocused && 
         <>
-        <SuggestionList suggestions={formattedTitles} match={searchValue} category={'BOOKS'}></SuggestionList>
-        <SuggestionList suggestions={formattedAuthors} match={searchValue} category={'AUTHORS'}></SuggestionList>
+        <SuggestionList list={matchingTitles} category={'BOOKS'}>
+         {(book) => <TitleSuggestion book={book} match={searchValue}/>}
+        </SuggestionList>
+        <SuggestionList list={matchingAuthors} category={'AUTHORS'}>
+         {(book) => <AuthorSuggestion book={book} match={searchValue}/>}
+        </SuggestionList>
         </>}
 
       {showNoMatchesBox &&

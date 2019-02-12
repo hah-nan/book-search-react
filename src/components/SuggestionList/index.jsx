@@ -3,18 +3,14 @@ import PropTypes from 'prop-types'
 import MatchingLettersBold from '../MatchingLettersBold'
 import './index.scss'
 
-const SuggestionList = ({category, suggestions, match}) => {
+const SuggestionList = ({category, list, children}) => {
 
-  if(suggestions.length){
+  if(list.length){
     return (
       <div className='suggestion-list'>
         <div className='suggestion-list__title'>{category}</div>
-        <ul>{suggestions.map((s, i) => {
-          return <li className = 'suggestion-list__item' key={i}>
-            <div className='suggestion-list__item__title'>
-            <MatchingLettersBold text={s.title} match={match}/></div>
-            <div className='suggestion-list__item__subtitle'>{s.subtitle}</div>
-          </li>
+        <ul>{list.map((s, i) => {
+          return <li className = 'suggestion-list__item' key={i}>{children(s)}</li>
         })}</ul>
       </div>
     )
@@ -25,10 +21,7 @@ const SuggestionList = ({category, suggestions, match}) => {
 
 SuggestionList.propTypes = {
   category: PropTypes.string,
-  suggestions: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string,
-    subtitle: PropTypes.string
-  }))
+  list: PropTypes.array
 }
 
 export default SuggestionList

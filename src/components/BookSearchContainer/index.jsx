@@ -17,7 +17,7 @@ class BookSearchContainer extends Component {
     this.handleSearchDebounced = debounce(this.handleSearch.bind(this), 300)
   }
 
-  validateSearch(searchValue){
+  shouldSearch(searchValue){
     return searchValue.trim().length > 1
   }
 
@@ -41,7 +41,7 @@ class BookSearchContainer extends Component {
       this.setState(this.state.cache[searchValue])
 
     //make sure we should search with this input
-    }else if(this.validateSearch(searchValue)){
+    }else if(this.shouldSearch(searchValue)){
       //its not cached, need to fetch from server
       this.handleSearchDebounced(e.target.value)
 
@@ -54,7 +54,7 @@ class BookSearchContainer extends Component {
   }
 
   render() {
-    return <BookSearch searchValue={this.state.searchValue} handleChange={this.handleChange} matchingTitles={this.state.matchingTitles} matchingAuthors={this.state.matchingAuthors}/>
+    return <BookSearch handleChange={this.handleChange} {...this.state} />
   }
 }
 
