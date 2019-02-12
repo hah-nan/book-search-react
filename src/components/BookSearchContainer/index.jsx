@@ -43,7 +43,7 @@ class BookSearchContainer extends Component {
     //make sure we should search with this input
     }else if(this.shouldSearch(searchValue)){
       //its not cached, need to fetch from server
-      this.handleSearchDebounced(e.target.value)
+      this.handleSearchThrottled(e.target.value)
 
     }else{
       //if theres no input, clear old suggestions
