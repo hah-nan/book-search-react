@@ -13,10 +13,10 @@ function TitleSuggestion({book, match}){
 
 TitleSuggestion.propTypes = {
   match: PropTypes.string.isRequired,
-  book: React.PropTypes.shape({
-    title: React.PropTypes.string,
-    author: React.PropTypes.string,
-    year: React.PropTypes.string
+  book: PropTypes.shape({
+    title: PropTypes.string,
+    author: PropTypes.string,
+    year: PropTypes.string
   })
 }
 

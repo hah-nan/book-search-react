@@ -7,7 +7,7 @@ export function fetchMatchingAuthors(author){
    return fetchBooksByAuthor({author: author, limit: 5})
 }
 
-export function debounce(func, wait) {
+export function throttle(func, wait) {
   let timeout = null
   return function(...args) {
     const later = function() {

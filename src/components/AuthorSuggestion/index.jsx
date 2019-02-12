@@ -13,9 +13,9 @@ function AuthorSuggestion({book, match}){
 
 AuthorSuggestion.propTypes = {
   match: PropTypes.string.isRequired,
-  book: React.PropTypes.shape({
-    title: React.PropTypes.string,
-    author: React.PropTypes.string
+  book: PropTypes.shape({
+    title: PropTypes.string,
+    author: PropTypes.string
   })
 }
 

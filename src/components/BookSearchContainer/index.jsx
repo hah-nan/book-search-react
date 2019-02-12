@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Books from '../../actions/books.js'
 import BookSearch from '../BookSearch'
-import { fetchMatchingTitles, fetchMatchingAuthors, debounce } from '../../actions/books'
+import { fetchMatchingTitles, fetchMatchingAuthors, throttle } from '../../actions/books'
 
 class BookSearchContainer extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class BookSearchContainer extends Component {
     }
 
     this.handleChange = this.handleChange.bind(this)
-    this.handleSearchDebounced = debounce(this.handleSearch.bind(this), 300)
+    this.handleSearchThrottled = throttle(this.handleSearch.bind(this), 300)
   }
 
   shouldSearch(searchValue){
